@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Front-End/search-users/static/css/main.1cefb46c.css",
-    "main.js": "/Front-End/search-users/static/js/main.20d631d5.js",
-    "static/js/787.f0af03eb.chunk.js": "/Front-End/search-users/static/js/787.f0af03eb.chunk.js",
-    "index.html": "/Front-End/search-users/index.html",
-    "main.1cefb46c.css.map": "/Front-End/search-users/static/css/main.1cefb46c.css.map",
-    "main.20d631d5.js.map": "/Front-End/search-users/static/js/main.20d631d5.js.map",
-    "787.f0af03eb.chunk.js.map": "/Front-End/search-users/static/js/787.f0af03eb.chunk.js.map"
+    "main.css": "/TorreTechnicalTest/Front-End/search-users/static/css/main.1cefb46c.css",
+    "main.js": "/TorreTechnicalTest/Front-End/search-users/static/js/main.91882897.js",
+    "static/js/787.f0af03eb.chunk.js": "/TorreTechnicalTest/Front-End/search-users/static/js/787.f0af03eb.chunk.js",
+    "index.html": "/TorreTechnicalTest/Front-End/search-users/index.html",
+    "main.1cefb46c.css.map": "/TorreTechnicalTest/Front-End/search-users/static/css/main.1cefb46c.css.map",
+    "main.91882897.js.map": "/TorreTechnicalTest/Front-End/search-users/static/js/main.91882897.js.map",
+    "787.f0af03eb.chunk.js.map": "/TorreTechnicalTest/Front-End/search-users/static/js/787.f0af03eb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1cefb46c.css",
-    "static/js/main.20d631d5.js"
+    "static/js/main.91882897.js"
   ]
 }
