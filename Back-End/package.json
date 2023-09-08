@@ -1,10 +1,14 @@
 {
   "name": "search-users",
   "version": "1.0.0",
+  "homepage": "https://adrian120401.github.io/Front-End/search-users",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "start": "node ./src/index.js",
+    "dev": "nodemon src/index.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
