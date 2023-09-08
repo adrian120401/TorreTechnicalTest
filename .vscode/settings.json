@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/bb72497f-42c2-4230-a517-15e9b58b2c5d/resourceGroups/torre-test-Adrian_group/providers/Microsoft.Web/sites/torre-test-Adrian",
+    "appService.deploySubpath": "Back-End"
+}
