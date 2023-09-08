@@ -1,7 +1,7 @@
 {
   "name": "search-users",
   "version": "0.1.0",
-  "homepage": "https://adrian120401.github.io/Front-End/search-users",
+  "homepage": "https://adrian120401.github.io/TorreTechnicalTest/Front-End/search-users",
   "private": true,
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
