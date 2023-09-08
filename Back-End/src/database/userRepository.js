@@ -9,9 +9,14 @@ const getUsers = async(searchTerm) => {
             "limit": 10
             }
         const response = await axios.post('https://torre.ai/api/entities/_searchStream' , body)
-        const usersArray = response.data.split('\n').filter(line => line.trim() !== '')
-        const users = usersArray.map(jsonString => JSON.parse(jsonString))
-        return users
+        if(typeof(response.data) === "object"){
+            return response.data
+        }else{
+            const usersArray = response.data.split('\n').filter(line => line.trim() !== '')
+            const users = usersArray.map(jsonString => JSON.parse(jsonString))
+            return users
+        }
+
     } catch (error) {
         throw{
             status: 500,
