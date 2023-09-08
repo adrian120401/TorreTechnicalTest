@@ -1,31 +1,35 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react"
+import { getUsersByQueryRequest } from "../api/userApi"
+import { InputSearch } from "../components/InputSearch"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { getUsers } from "../api/userApi";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
-const Home = () => {
-  const [searchTerm, setSearchTerm] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [previewUsers, setPreviewUsers] = useState([]);
-  const [isResultVisible, setResultVisible] = useState(false);
+const Home = ({getUsersElement}) => {
+  const [searchTerm, setSearchTerm] = useState(null)
+  const [page, setPage] = useState(null)
+  const [total, setTotal] = useState(0)
+  const [offset, setOffset] = useState(0)
+  const [users, setUsers] = useState([])
+  const [previewUsers, setPreviewUsers] = useState([])
+  const [isResultVisible, setResultVisible] = useState(false)
 
   const listRef = useRef(null)
-
-  const getPreviewUsers = useCallback(async () => {
-    const response = await getUsers(searchTerm);
+  
+  const getUsers = useCallback(async() => {
+    const response = await getUsersByQueryRequest(searchTerm, page)
     if (response.status === "OK") {
-      setPreviewUsers(response.data);
-      setResultVisible(response.data.length > 0);
+        setTotal(response.data.total)
+        setOffset(response.data.offset)
+        setUsers(response.data.results)
     }
-  }, [searchTerm]);
+  }, [page, searchTerm])
 
-  useEffect(() => {
-    if (searchTerm) {
-      getPreviewUsers();
-    } else {
-      setResultVisible(false);
+  useEffect(()=> {
+    if(page){
+      getUsers()  
     }
-  }, [getPreviewUsers, searchTerm]);
+  }, [getUsers, page])
 
   useEffect(() => {
     const handleDocumentClick = (e) => {
@@ -33,106 +37,52 @@ const Home = () => {
         setResultVisible(false)
       }
     }
-
     if (isResultVisible) {
       document.addEventListener('click', handleDocumentClick)
     } else {
       document.removeEventListener('click', handleDocumentClick)
     }
-
     return () => {
       document.removeEventListener('click', handleDocumentClick)
     };
   }, [isResultVisible])
 
-  const handleOnSumbit = (e) => {
-    e.preventDefault();
-    //getData()
-  };
-
-  const getUsersElement = () => {
-    return users.map((user) => {
-      return (
-        <div class="card text-white bg-dark mb-3">
-          <div class="card-header">Header</div>
-          <div class="card-body">
-            <h5 class="card-title">Dark card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
-        </div>
-      );
-    });
-  };
-
   const handleInputSearch = (text) => {
-    setSearchTerm(text.target.value);
-  };
+    setSearchTerm(text.target.value)
+  }
+
+  const handlePrevPage = () => {
+    const newPage = page - 1
+    setPage(newPage)
+  }
+
+  const handleNextPage = () => {
+    const newPage = page ? page + 1 : 2
+    setPage(newPage)
+  }
 
   return (
     <div className="container mt-4">
-      <form
-        className="field-search input-group flex-nowrap"
-        onSubmit={handleOnSumbit}
-      >
-        <div className="input-group-prepend">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </div>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search people by name"
-          onChange={handleInputSearch}
-        />
-      </form>
-      <div ref={listRef}>
-        {isResultVisible && (
-            <ul
-                className="list-group results-list custom-scrollbar"
-            >
-                {previewUsers.map((user, index) => (
-                <li className="list-group-item text-light bg-dark d-flex" key={index}>
-                    {user.imageUrl ? (
-                        <img
-                        src={user.imageUrl}
-                        alt={user.name}
-                        className="mr-3"
-                        style={{ maxWidth: "80px" }}
-                    />
-                    ) : (
-                    <div
-                        className="mr-3 d-grid text-center align-items-center"
-                        style={{
-                        width: "80px",
-                        height: "80px",
-                        backgroundColor: "#666",
-                        borderRadius: "50%",
-                        }}
-                    >
-                        <h3
-                        style={{
-                            fontWeight: "bold",
-                            color: "#fff",
-                        }}
-                        className="m-0"
-                        >
-                        {user.name[0].toUpperCase()}
-                        </h3>
-                    </div>
-                    )}
-                    <div style={{marginLeft:"1.0em", textAlign: "left"}}>
-                    <h5>{user.name}</h5>
-                    <p>{user.professionalHeadline}</p>
-                    </div>
-                </li>
-                ))}
-            </ul>
-        )}
-      </div>
+      <InputSearch handleInputSearch={handleInputSearch} getUsers={getUsers}
+       listRef={listRef} isResultVisible={isResultVisible} previewUsers={previewUsers} searchTerm={searchTerm}
+       setPreviewUsers={setPreviewUsers} setResultVisible={setResultVisible}/>
       {users.length !== 0 && (
-        <div className="d-flex flex-column mt-4">{getUsersElement()}</div>
+        <div className="d-flex flex-column mt-4">
+            <p>Showing results {offset} - {offset + users.length} of around {total}</p>
+            {getUsersElement(users, false)}
+            <div>
+                {offset !== 0 &&
+                    <button type="button" className="btn btn-outline-dark" onClick={handlePrevPage}>
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                    </button>
+                }
+                {offset + users.length < total &&
+                    <button type="button" className="btn btn-outline-dark" onClick={handleNextPage}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </button>
+                }
+            </div>
+        </div>
       )}
     </div>
   );

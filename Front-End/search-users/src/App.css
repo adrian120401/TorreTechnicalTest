@@ -13,6 +13,11 @@ body{
   color: white
 }
 
+.nav-text{
+  color: #555;
+}
+
+
 .results-list {
   max-height: 300px;
   overflow-y: auto;
@@ -37,6 +42,22 @@ body{
   background-color: #555;
 }
 
+
+.icon-heart{
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.icon-heart:hover{
+  color: red;
+}
+
+.icon-trash{
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.icon-trash:hover{
+  transform: rotate(-60deg);
+}
 
 
 

@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const getUsers = async(searchTerm) => {
+const getPreviewUsers = async(searchTerm) => {
     try {
         const body = {
             "query": searchTerm,
@@ -10,7 +10,7 @@ const getUsers = async(searchTerm) => {
             }
         const response = await axios.post('https://torre.ai/api/entities/_searchStream' , body)
         if(typeof(response.data) === "object"){
-            return response.data
+            return [response.data]
         }else{
             const usersArray = response.data.split('\n').filter(line => line.trim() !== '')
             const users = usersArray.map(jsonString => JSON.parse(jsonString))
@@ -25,4 +25,20 @@ const getUsers = async(searchTerm) => {
     }
 }
 
-module.exports = {getUsers}
+const getUsers = async(query, offset, limit) =>{
+    try {
+        const body = {
+            "query": query
+        }
+        const response = await axios.post(`https://arda.torre.co/entities/_search?offset=${offset}&limit=${50}`,
+                                        body)
+        return response.data
+    } catch (error) {
+        throw{
+            status: 500,
+            message: `Error ${error}`
+        }
+    }
+}
+
+module.exports = {getPreviewUsers, getUsers}
