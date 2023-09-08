@@ -1,11 +1,21 @@
 const express = require("express"); 
+const userRouter = require("./routes/userRoutes.js")
+const cors = require('cors')
 
-const app = express(); 
-const PORT = process.env.PORT || 3000; 
 
-app.get("/", (req, res) => { 
-    res.send("<h2>It's Working!</h2>"); 
-}); 
+const corsOptions = {
+    origin: 'http://localhost:3001',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  };
+  
+
+const app = express()
+const PORT = process.env.PORT || 3000
+
+app.use(cors(corsOptions))
+app.use(express.json())
+app.use("/api", userRouter)
 
 app.listen(PORT, () => { 
     console.log(`API is listening on port ${PORT}`); 
