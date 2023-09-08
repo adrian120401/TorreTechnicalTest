@@ -1,0 +1,14 @@
+body{
+  background-color: black;
+}
+
+.App{
+  text-align: center;
+}
+
+.field-search{
+  color: #555
+}
+.field-search:hover{
+  color: white
+}
